@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Posts on Meteo</title><link>http://localhost:1313/posts/</link><description>Recent content in Posts on Meteo</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sat, 13 Jun 2026 00:32:21 +0800</lastBuildDate><atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Hello World</title><link>http://localhost:1313/posts/hello-world/</link><pubDate>Sat, 13 Jun 2026 00:32:21 +0800</pubDate><guid>http://localhost:1313/posts/hello-world/</guid><description>&lt;h3 id="hello-world"&gt;Hello, World!&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“千里之行，始于足下”&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这是Meteo的第一篇Post，万里长征第一步从这里开始，期待未来无限可能&lt;/p&gt;</description></item></channel></rss>
