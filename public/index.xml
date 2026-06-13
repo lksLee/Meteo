@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Meteo</title>
+    <link>http://localhost:1313/Meteo/</link>
+    <description>Recent content on Meteo</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 13 Jun 2026 02:22:02 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/Meteo/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>It&#39;s Time to Go</title>
+      <link>http://localhost:1313/Meteo/posts/its-time-to-go/</link>
+      <pubDate>Sat, 13 Jun 2026 02:22:02 +0800</pubDate>
+      <guid>http://localhost:1313/Meteo/posts/its-time-to-go/</guid>
+      <description>&lt;blockquote&gt;
+&lt;h3 id=&#34;写在前面&#34;&gt;写在前面&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;这一篇短文写于2025年毕业之际，转载自&lt;/em&gt; &lt;a href=&#34;https://lkslee.github.io/2025/06/15/graduation/&#34;&gt;&lt;em&gt;&lt;strong&gt;子山隅&lt;/strong&gt;&lt;/em&gt;&lt;/a&gt;  &lt;em&gt;今年再次回到母校，感慨良多，相似的时间，相似的地点，但在这里的人早已各奔东西，不知何时能再次相见&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;随记六月半&#34;&gt;随记|六月半&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;赤日炎炎似火烧，野田禾稻半枯焦。&lt;br&gt;
+农夫心内如汤煮，公子王孙把扇摇。&lt;br&gt;
+——宋·无名氏&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;第一次读到这首诗是在《水浒传》智取生辰纲一回中，在文中开头作为定场诗，所描写的夏日炎炎给我留下了深刻的影响。这一周成都不仅赤日炎炎，而且空气湿度很大，给人十分闷热的感受，在室外行走实在是一件煎熬的事。&lt;/p&gt;
+&lt;p&gt;不巧骄阳同毕业季撞上，头顶烈日身着黑色学士服在户外拍照，竟然在当时也不觉得很累，心中只有和好友拍照的喜悦。马上就要离开了，这一次的毕业也许是最后一次（也许不是），我会怀念这四年来在三个校区的生活（有这种体验的总共就三届学生）。&lt;/p&gt;
+&lt;p&gt;四年似乎很漫长，昨天在翻照片的时候，发现昔日有些回忆早已忘记，照片让我找回往日的气息，而有些回忆恍如昨日，清晰可见，才发现时间竟然过去了那么久，而我早已不是当初的那个我。我觉得将来还是会怀念这里的生活，这一段无忧无虑的时光。&lt;/p&gt;
+&lt;p&gt;大家如同当时从四面八方汇聚在一起一样，现在又将各自奔赴自己下一段精彩的旅程，愿诸位都能身体健康，天天开心！&lt;/p&gt;
+&lt;p&gt;“你可以回头看，但不要向后走”&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-Hayashi&#34; data-lang=&#34;Hayashi&#34;&gt;B15-5009, CAFUC(Tianfu)  
+2025.06.15
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    <item>
+      <title>关于我</title>
+      <link>http://localhost:1313/Meteo/about/</link>
+      <pubDate>Sat, 13 Jun 2026 00:50:37 +0800</pubDate>
+      <guid>http://localhost:1313/Meteo/about/</guid>
+      <description>&lt;h1 id=&#34;hayashi&#34;&gt;Hayashi&lt;/h1&gt;
+&lt;p&gt;气象专业🐮🐴 | 日本語N95 | 制图大湿 | Token消耗者&lt;/p&gt;
+&lt;p&gt;一个刚进入气象行业的小牛马（已经不想上班了），干我们这一行最忌讳的就是干我们这一行 lol&lt;/p&gt;
+&lt;p&gt;Email: &lt;a href=&#34;mailto:hshiragawa@gmail.com&#34;&gt;hshiragawa@gmail.com&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Hello World</title>
+      <link>http://localhost:1313/Meteo/posts/hello-world/</link>
+      <pubDate>Sat, 13 Jun 2026 00:32:21 +0800</pubDate>
+      <guid>http://localhost:1313/Meteo/posts/hello-world/</guid>
+      <description>&lt;h3 id=&#34;hello-world&#34;&gt;Hello, World!&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“千里之行，始于足下”&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这是Meteo的第一篇Post，万里长征第一步从这里开始，期待未来无限可能&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
