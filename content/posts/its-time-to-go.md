@@ -1,8 +1,13 @@
-+++
-date = '2026-06-13T02:22:02+08:00'
-draft = false
-title = "It's Time to Go"
-+++
+---
+date: '2026-06-13T02:22:02+08:00'
+draft: false
+title: "It's Time to Go"
+cover:
+  image: "img/post-bg-cafucgate.jpg"
+  alt: "CAFUC Hall Gate"
+  caption: "CAFUC Hall Gate"
+tags: ["日常"]
+---
 
 > ### 写在前面
 > *这一篇短文写于2025年毕业之际，转载自* [***子山隅***](https://lkslee.github.io/2025/06/15/graduation/)  *今年再次回到母校，感慨良多，相似的时间，相似的地点，但在这里的人早已各奔东西，不知何时能再次相见*

@@ -6,19 +6,13 @@
     <description>Recent content in Tags on Meteo</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
+    <lastBuildDate>Sat, 13 Jun 2026 02:22:02 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/Meteo/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Daily</title>
-      <link>http://localhost:1313/Meteo/tags/daily/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/Meteo/tags/daily/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Dailys</title>
-      <link>http://localhost:1313/Meteo/tags/dailys/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/Meteo/tags/dailys/</guid>
+      <title>日常</title>
+      <link>http://localhost:1313/Meteo/tags/%E6%97%A5%E5%B8%B8/</link>
+      <pubDate>Sat, 13 Jun 2026 02:22:02 +0800</pubDate>
+      <guid>http://localhost:1313/Meteo/tags/%E6%97%A5%E5%B8%B8/</guid>
       <description></description>
     </item>
   </channel>

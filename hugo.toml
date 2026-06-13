@@ -3,6 +3,37 @@ languageCode = "zh-cn"
 title = "Meteo" 
 theme = "PaperMod" 
 
+
+
+[params]
+  # 启用个人资料卡模式，这会关闭默认的文章列表首页
+  [params.profileMode]
+    enabled = true
+    title = "Meteo"
+    subtitle = "做个无畏的工程师🦁"
+    imageUrl = "img/avatar.jpg"
+    imageWidth = 150          # 添加图片宽度
+    imageHeight = 150         # 添加图片高度
+    buttons = []              # 添加一个空的按钮配置，这是必需的
+  
+  # 社交链接
+  [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/lksLee"
+  
+  [[params.socialIcons]]
+    name = "email"
+    url = "mailto:hshiragawa@gmail.com"
+  
+  [[params.socialIcons]]
+    name = "bilibili"
+    url = "https://space.bilibili.com/74008137"
+
+  # 功能开关
+  ShowReadingTime = true
+  ShowShareButtons = true
+  ShowPostNavLinks = true
+
 [menu]
   [[menu.main]]
     name = "Posts"
@@ -15,6 +46,23 @@ theme = "PaperMod"
     weight = 2
 
   [[menu.main]]
+    name = "Tags"
+    url = "/tags/"
+    weight = 3
+
+  [[menu.main]]
+    name = "Search"
+    url = "/search/"
+    weight = 4
+
+  [[menu.main]]
     name = "About"
     url = "/about/"
-    weight = 3
+    weight = 5
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+  page = ["HTML"]
+  section = ["HTML", "RSS"]
+  taxonomy = ["HTML"]
+  term = ["HTML"]

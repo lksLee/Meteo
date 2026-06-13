@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>PDF发票合并工具 - 横版A4 2x2高清输出</title>
+    <!-- PDF.js 核心库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <!-- jsPDF 高清版 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #eef2f5;
+            margin: 0;
+            padding: 24px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .app-container {
+            max-width: 1400px;
+            width: 100%;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+            overflow: hidden;
+            padding: 28px 32px 32px;
+        }
+        h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+        .feature-tag {
+            background: #10b981;
+            color: white;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .desc {
+            color: #334155;
+            border-left: 4px solid #3b82f6;
+            padding-left: 16px;
+            margin: 12px 0 28px 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        .upload-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-bottom: 32px;
+        }
+        .file-card {
+            flex: 1;
+            min-width: 180px;
+            background: #f9fafc;
+            border-radius: 24px;
+            border: 1px solid #e2e8f0;
+            padding: 18px 12px;
+            text-align: center;
+            transition: all 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+        .file-card .badge {
+            font-weight: 700;
+            font-size: 1rem;
+            background: #e0e7ff;
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 40px;
+            margin-bottom: 14px;
+            color: #1e40af;
+        }
+        .file-input-label {
+            display: inline-block;
+            background: #3b82f6;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            margin: 12px 0 8px;
+            transition: 0.15s;
+            border: none;
+        }
+        .file-input-label:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+        input[type="file"] {
+            display: none;
+        }
+        .file-name {
+            font-size: 0.72rem;
+            color: #1e293b;
+            word-break: break-all;
+            margin-top: 8px;
+            background: #f1f5f9;
+            padding: 5px 8px;
+            border-radius: 20px;
+            display: inline-block;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .clear-btn {
+            background: none;
+            border: none;
+            color: #ef4444;
+            font-size: 0.7rem;
+            cursor: pointer;
+            margin-top: 8px;
+            text-decoration: underline;
+            opacity: 0.7;
+            transition: 0.1s;
+        }
+        .clear-btn:hover {
+            opacity: 1;
+        }
+        .preview-area {
+            background: #fefefe;
+            border-radius: 24px;
+            padding: 20px;
+            margin: 16px 0 24px;
+            border: 1px solid #e2edff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+        .preview-title {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            font-weight: 600;
+            color: #0f172a;
+            font-size: 0.95rem;
+        }
+        .canvas-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 18px;
+        }
+        .grid-item {
+            background: white;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 280px;
+            position: relative;
+            border: 1px solid #cbd5e6;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+        .grid-item canvas {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
+        .placeholder {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            text-align: center;
+            padding: 30px;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+        button {
+            background: #1e293b;
+            border: none;
+            padding: 12px 34px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            color: white;
+            transition: 0.15s;
+            font-family: inherit;
+        }
+        button.primary {
+            background: #2563eb;
+            box-shadow: 0 2px 8px rgba(37,99,235,0.3);
+        }
+        button.primary:hover {
+            background: #1d4ed8;
+            transform: scale(0.98);
+        }
+        button.secondary {
+            background: #475569;
+        }
+        button.secondary:hover {
+            background: #334155;
+        }
+        .status {
+            margin-top: 26px;
+            text-align: center;
+            font-size: 0.85rem;
+            background: #f1f5f9;
+            border-radius: 60px;
+            padding: 12px 16px;
+            color: #1e293b;
+            font-weight: 500;
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #62748c;
+        }
+        @media (max-width: 750px) {
+            .app-container {
+                padding: 18px;
+            }
+            .canvas-grid {
+                gap: 12px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <h1>
+        🧾 PDF 发票合并工具
+        <span class="feature-tag">横版A4 · 2x2高清</span>
+    </h1>
+    <div class="desc">
+        📐 输出格式：<strong>横版 A4 (297mm × 210mm)</strong>，四个发票按 2×2 网格排列。<br>
+        🎯 每个发票保持原始比例，自动居中留白，<strong style="color:#2563eb;">采用高分辨率渲染 + 高质量图像嵌入，解决模糊问题</strong>，清晰可打印。
+    </div>
+
+    <div class="upload-grid" id="uploadGrid"></div>
+
+    <div class="preview-area">
+        <div class="preview-title">
+            <span>🖼️ 预览区域 (每个格子显示发票第一页)</span>
+            <span>✨ 合并时自动优化清晰度</span>
+        </div>
+        <div class="canvas-grid" id="previewGrid"></div>
+    </div>
+
+    <div class="action-buttons">
+        <button class="primary" id="mergeBtn">📄 合并生成高清 PDF (横版A4)</button>
+        <button class="secondary" id="resetBtn">🗑️ 清空所有文件</button>
+    </div>
+    <div id="statusMsg" class="status">✅ 就绪，请上传4个PDF发票文件（支持旋转/任意比例，自动适配）</div>
+    <footer>💡 提示：预览图仅用于参考，最终PDF将使用高分辨率渲染，文字和线条清晰锐利。</footer>
+</div>
+
+<script>
+    // 配置 PDF.js worker
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+    // 存储数据
+    let fileList = [null, null, null, null];
+    let highResImages = [null, null, null, null];   // 存储每个发票的高清图片数据 (对象: {imgData, width, height})
+    let renderReady = [false, false, false, false];
+
+    const uploadGrid = document.getElementById('uploadGrid');
+    const previewGrid = document.getElementById('previewGrid');
+    const mergeBtn = document.getElementById('mergeBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const statusDiv = document.getElementById('statusMsg');
+
+    function setStatus(msg, isError = false) {
+        statusDiv.innerHTML = isError ? `⚠️ ${msg}` : `✅ ${msg}`;
+        statusDiv.style.background = isError ? '#fee2e2' : '#e6f0ff';
+        setTimeout(() => {
+            if (!isError && statusDiv.innerHTML.includes(msg)) {
+                // 保留正常状态，不清空错误时不操作
+            }
+        }, 3500);
+    }
+
+    // 重置所有
+    function resetAll() {
+        fileList = [null, null, null, null];
+        highResImages = [null, null, null, null];
+        renderReady = [false, false, false, false];
+        renderUploadCards();
+        clearPreviewGrid();
+        initPreviewPlaceholders();
+        setStatus('已清空所有文件，请重新上传四个PDF发票');
+    }
+
+    function clearPreviewGrid() {
+        while (previewGrid.firstChild) {
+            previewGrid.removeChild(previewGrid.firstChild);
+        }
+    }
+
+    function initPreviewPlaceholders() {
+        clearPreviewGrid();
+        for (let i = 0; i < 4; i++) {
+            const div = document.createElement('div');
+            div.className = 'grid-item';
+            div.id = `previewCell_${i}`;
+            const placeholder = document.createElement('div');
+            placeholder.className = 'placeholder';
+            placeholder.innerText = `第 ${i+1} 个发票\n未上传`;
+            div.appendChild(placeholder);
+            previewGrid.appendChild(div);
+        }
+    }
+
+    // 渲染上传卡片UI
+    function renderUploadCards() {
+        uploadGrid.innerHTML = '';
+        for (let i = 0; i < 4; i++) {
+            const card = document.createElement('div');
+            card.className = 'file-card';
+            const badge = document.createElement('div');
+            badge.className = 'badge';
+            badge.innerText = `发票 ${i+1}`;
+            const label = document.createElement('label');
+            label.className = 'file-input-label';
+            label.setAttribute('for', `pdfInput_${i}`);
+            label.innerText = '📂 选择PDF文件';
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'application/pdf';
+            input.id = `pdfInput_${i}`;
+            input.style.display = 'none';
+            input.addEventListener('change', (e) => handleFileSelect(i, e));
+            const fileNameSpan = document.createElement('div');
+            fileNameSpan.className = 'file-name';
+            fileNameSpan.id = `fileName_${i}`;
+            fileNameSpan.innerText = fileList[i] ? fileList[i].name : '未选择文件';
+            const clearBtn = document.createElement('button');
+            clearBtn.innerText = '清除';
+            clearBtn.className = 'clear-btn';
+            clearBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                clearFileAtIndex(i);
+            });
+            card.appendChild(badge);
+            card.appendChild(label);
+            card.appendChild(input);
+            card.appendChild(fileNameSpan);
+            card.appendChild(clearBtn);
+            uploadGrid.appendChild(card);
+        }
+        refreshPreviewsFromMemory();
+    }
+
+    async function clearFileAtIndex(index) {
+        if (fileList[index] !== null || renderReady[index]) {
+            fileList[index] = null;
+            highResImages[index] = null;
+            renderReady[index] = false;
+            const fileNameSpan = document.getElementById(`fileName_${index}`);
+            if (fileNameSpan) fileNameSpan.innerText = '未选择文件';
+            updatePreviewCellPlaceholder(index, `第 ${index+1} 个发票\n未上传`);
+            setStatus(`已清除发票 ${index+1}`);
+        }
+    }
+
+    // 高清晰度渲染PDF第一页 (渲染尺度大，保证最终PDF清晰)
+    async function renderHighQualityFirstPage(file) {
+        try {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            const page = await pdf.getPage(1);
+            // 关键：使用较高缩放比例（例如 3.0 或更高）以获得高清图像，但不宜过大影响性能，取 3.0 足够清晰
+            const scale = 3.2;   // 高清晰系数，可保证文字清晰
+            const viewport = page.getViewport({ scale: scale });
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            await page.render({ canvasContext: context, viewport: viewport }).promise;
+            // 转换为高质量图片 dataURL (PNG格式无损)
+            const imgData = canvas.toDataURL('image/png');
+            return {
+                imgData: imgData,
+                width: canvas.width,
+                height: canvas.height,
+                originalWidth: viewport.width,
+                originalHeight: viewport.height
+            };
+        } catch (err) {
+            console.error("渲染失败", err);
+            throw new Error(`PDF解析失败: ${err.message}`);
+        }
+    }
+
+    // 处理文件选择
+    async function handleFileSelect(index, event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        if (file.type !== 'application/pdf') {
+            setStatus(`发票 ${index+1} 必须为PDF格式`, true);
+            return;
+        }
+        fileList[index] = file;
+        const fileNameSpan = document.getElementById(`fileName_${index}`);
+        if (fileNameSpan) fileNameSpan.innerText = file.name;
+        setStatus(`正在加载发票 ${index+1} (高精度渲染)...`);
+
+        try {
+            const highRes = await renderHighQualityFirstPage(file);
+            highResImages[index] = highRes;
+            renderReady[index] = true;
+            // 更新预览 (预览使用渲染出的canvas缩小显示，仅做预览)
+            updatePreviewCellWithHighRes(index, highRes);
+            setStatus(`发票 ${index+1} 加载完成，高清数据已就绪。`);
+        } catch (err) {
+            console.error(err);
+            setStatus(`发票 ${index+1} 处理失败: ${err.message}`, true);
+            fileList[index] = null;
+            renderReady[index] = false;
+            highResImages[index] = null;
+            const fileNameSpan2 = document.getElementById(`fileName_${index}`);
+            if (fileNameSpan2) fileNameSpan2.innerText = '加载失败';
+            updatePreviewCellPlaceholder(index, `第 ${index+1} 个发票\n解析错误`);
+        }
+    }
+
+    // 预览更新：利用高清图像生成缩略canvas展示（缩小显示，仅预览）
+    function updatePreviewCellWithHighRes(index, highRes) {
+        const cellDiv = document.getElementById(`previewCell_${index}`);
+        if (!cellDiv) return;
+        while (cellDiv.firstChild) cellDiv.removeChild(cellDiv.firstChild);
+        const img = new Image();
+        img.src = highRes.imgData;
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = '260px';
+        img.style.objectFit = 'contain';
+        img.style.borderRadius = '8px';
+        cellDiv.appendChild(img);
+    }
+
+    function updatePreviewCellPlaceholder(index, message) {
+        const cellDiv = document.getElementById(`previewCell_${index}`);
+        if (cellDiv) {
+            while (cellDiv.firstChild) cellDiv.removeChild(cellDiv.firstChild);
+            const placeholder = document.createElement('div');
+            placeholder.className = 'placeholder';
+            placeholder.innerText = message;
+            cellDiv.appendChild(placeholder);
+        }
+    }
+
+    function refreshPreviewsFromMemory() {
+        for (let i = 0; i < 4; i++) {
+            if (renderReady[i] && highResImages[i]) {
+                updatePreviewCellWithHighRes(i, highResImages[i]);
+            } else {
+                const msg = fileList[i] ? '加载异常' : `第 ${i+1} 个发票\n未上传`;
+                updatePreviewCellPlaceholder(i, msg);
+            }
+        }
+    }
+
+    // 合并生成横版PDF (关键: 高精度 + 横版)
+    async function mergeToLandscapeA4() {
+        for (let i = 0; i < 4; i++) {
+            if (!fileList[i] || !renderReady[i] || !highResImages[i]) {
+                setStatus(`缺少第 ${i+1} 个有效PDF文件，请完整上传四个发票`, true);
+                return;
+            }
+        }
+        setStatus("🔄 正在生成高清横版PDF，请稍候... (保持清晰度)");
+        
+        const { jsPDF } = window.jspdf;
+        // 横版 A4: width = 297mm, height = 210mm
+        const pdf = new jsPDF({
+            orientation: 'landscape',
+            unit: 'mm',
+            format: 'a4'
+        });
+        
+        const pageWidth = pdf.internal.pageSize.getWidth();   // 297 mm
+        const pageHeight = pdf.internal.pageSize.getHeight(); // 210 mm
+        
+        const margin = 8;       // 四周留边距 (mm)
+        const usableWidth = pageWidth - margin * 2;
+        const usableHeight = pageHeight - margin * 2;
+        const cellWidth = usableWidth / 2;
+        const cellHeight = usableHeight / 2;
+        
+        // 遍历四个发票，分别计算在每个格子内居中的绘制尺寸和位置
+        for (let idx = 0; idx < 4; idx++) {
+            const imgInfo = highResImages[idx];
+            const img = new Image();
+            img.src = imgInfo.imgData;
+            // 等待图片加载完成，因为imgData是dataURL，同步加载其实很快，为确保稳妥用Promise
+            await new Promise((resolve) => {
+                if (img.complete) resolve();
+                else img.onload = resolve;
+            });
+            
+            const imgWidthPx = img.width;
+            const imgHeightPx = img.height;
+            const imgAspect = imgWidthPx / imgHeightPx;
+            const cellAspect = cellWidth / cellHeight;
+            
+            let drawWidthMM, drawHeightMM;
+            if (imgAspect > cellAspect) {
+                // 图片更宽，以宽度填满单元格，高度按比例缩放
+                drawWidthMM = cellWidth;
+                drawHeightMM = cellWidth / imgAspect;
+            } else {
+                // 图片更高，以高度填满单元格，宽度按比例缩放
+                drawHeightMM = cellHeight;
+                drawWidthMM = cellHeight * imgAspect;
+            }
+            
+            // 计算居中偏移
+            const offsetX = (cellWidth - drawWidthMM) / 2;
+            const offsetY = (cellHeight - drawHeightMM) / 2;
+            
+            // 当前格子所在的行列: 0,1 -> 第一行左右；2,3 -> 第二行左右
+            const col = idx % 2;
+            const row = Math.floor(idx / 2);
+            const finalX = margin + col * cellWidth + offsetX;
+            const finalY = margin + row * cellHeight + offsetY;
+            
+            // 将图片高质量添加到pdf中 (使用JPEG 0.95质量保证清晰且体积适中)
+            pdf.addImage(imgInfo.imgData, 'PNG', finalX, finalY, drawWidthMM, drawHeightMM, undefined, 'FAST');
+        }
+        
+        // 下载
+        pdf.save('invoices_2x2_landscape_hd.pdf');
+        setStatus("🎉 合并成功！已下载高清横版PDF文件：invoices_2x2_landscape_hd.pdf，文字清晰，适合打印。");
+    }
+    
+    // 重置与合并事件绑定
+    resetBtn.addEventListener('click', resetAll);
+    mergeBtn.addEventListener('click', mergeToLandscapeA4);
+    
+    // 初始化UI
+    function init() {
+        renderUploadCards();
+        initPreviewPlaceholders();
+    }
+    init();
+</script>
+</body>
+</html>
