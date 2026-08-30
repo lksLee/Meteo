@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/Meteo/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=Meteo/livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>弱密码破译 | Meteo</title>
+<meta name="keywords" content="技能">
+<meta name="description" content="
+AI的发展让学习的成本变低了不少，以前有想法没技术，要么花时间去学，要么只能停留在想法。现在有了AI，很多事情都能迈出第一步。
+不管怎么说，先跑起来。
+
+0 问题
+前一段时间，单位电脑做了一些更换，需要把从前电脑里面的业务软件迁移至新电脑，没有安装包，没有文档，甚至连一些密码都不知道，算得上是一个历史遗留问题。
+1 尝试
+于是我开始了尝试，从最简单的方法：直接从旧电脑上复制本地文件，拷贝到新电脑上——不出所料地无法正常运行，因为软件需要重新配置。在拷贝的文件里面东翻西找，找到一个init文件，用记事本打开，发现里面有一些旧电脑的路径——第二次尝试：将路径改为新电脑对应的路径，但依然没有成功。
+到这里问题有点停滞了，后来又找到了另外一个版本软件自带的help文档，文档建议所有的配置需要在软件内进行（也在意料之内，在外部配置好也只能是奇迹）。后来不知道在哪里找到了安装包，终于进入了软件内配置的操作，基础信息在原来电脑的软件配置里面都可以找到，唯有一个很关键的信息无法得到——连接服务器的密码。兜兜转转一大圈，在最接近胜利的前一刻再一次卡住。
+2 验证
+还是找到了init文件，发现密码就保存在里面，结果发现不对，怀疑是加密后的密码——心再次凉了下来，尝试了几个常见的密码也不行，再次打开init文件的时候发现：尝试的密码也被加密保存了下来。这个时候便有了思路：如果我能利用这个漏洞，提供足够多的明文和加密后对应的密文，是否可以推断出加密方式并破译密码。放在现在的软件大概是不行的，巧就巧在这个软件是零几年的软件，行业自己开发的，估计加密也不会使用太专业的加密方法。
+理论成立，开干！按照DS的指示提供了若干明文和密文：
+
+	
+			
+					明文
+					密文
+			
+	
+	
+			
+					123456
+					1f68097f6202
+			
+			
+					654321
+					186f0e786505
+			
+			
+					admin
+					4f3e572239
+			
+			
+					888888
+					166202736f0c
+			
+	
+
+DS首先发现，明文长度=密文长度，它排除了所有主流哈希算法（MD5/SHA等），因为哈希输出的长度是固定的，不会随明文长度变化。这不是哈希，而是逐字节加密/变换。然后DS将密文与明文做XOR（异或）运算（对应相同得到0，不同得到1），得到：
+
+	
+			
+					明文
+					密文字节
+					明文字节
+					XOR结果
+			
+	
+	
+			
+					123456
+					1f 68 09 7f 62 02
+					31 32 33 34 35 36
+					2e 5a 3a 4b 57 34
+			
+			
+					654321
+					18 6f 0e 78 65 05
+					36 35 34 33 32 31
+					2e 5a 3a 4b 57 34
+			
+			
+					888888
+					16 62 02 73 6f 0c
+					38 38 38 38 38 38
+					2e 5a 3a 4b 57 34
+			
+	
+
+admin为5个字符，XOR结果也是5组，常见的XOR加密是在密钥的基础上循环，admin验证的过程略下不展开">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/Meteo/posts/cryptography/">
+<link crossorigin="anonymous" href="/Meteo/assets/css/stylesheet.89ca4972ab5e6aaa05e9a0dae0c4bb64b26585bc79e36f5cf33614eea0283abe.css" integrity="sha256-icpJcqteaqoF6aDa4MS7ZLJlhbx5429c8zYU7qAoOr4=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/Meteo/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/Meteo/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/Meteo/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/Meteo/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/Meteo/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/Meteo/posts/cryptography/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/Meteo/" accesskey="h" title="Meteo (Alt + H)">Meteo</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/Meteo/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/Meteo/projects/" title="Projects">
+                    <span>Projects</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/Meteo/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/Meteo/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/Meteo/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      弱密码破译
+    </h1>
+    <div class="post-meta">
+
+<span title='2026-08-30 14:03:00 +0800 CST'>August 30, 2026</span>
+
+</div>
+  </header> 
+<figure class="entry-cover">
+        <img loading="eager" src="http://localhost:1313/Meteo/img/Enigma_rotors_with_alphabet_rings.jpg" alt="Enigma wheels within alphabet rings in position in an Enigma scrambler-TedColes">
+        <figcaption>Enigma wheels within alphabet rings in position in an Enigma scrambler-TedColes</figcaption>
+</figure>
+  <div class="post-content md-content"><blockquote>
+<p><em>AI的发展让学习的成本变低了不少，以前有想法没技术，要么花时间去学，要么只能停留在想法。现在有了AI，很多事情都能迈出第一步。</em><br>
+<em>不管怎么说，先跑起来。</em></p>
+</blockquote>
+<h3 id="0-问题">0 问题<a hidden class="anchor" aria-hidden="true" href="#0-问题">#</a></h3>
+<p>前一段时间，单位电脑做了一些更换，需要把从前电脑里面的业务软件迁移至新电脑，没有安装包，没有文档，甚至连一些密码都不知道，算得上是一个历史遗留问题。</p>
+<h3 id="1-尝试">1 尝试<a hidden class="anchor" aria-hidden="true" href="#1-尝试">#</a></h3>
+<p>于是我开始了尝试，从最简单的方法：直接从旧电脑上复制本地文件，拷贝到新电脑上——不出所料地无法正常运行，因为软件需要重新配置。在拷贝的文件里面东翻西找，找到一个init文件，用记事本打开，发现里面有一些旧电脑的路径——第二次尝试：将路径改为新电脑对应的路径，但依然没有成功。</p>
+<p>到这里问题有点停滞了，后来又找到了另外一个版本软件自带的help文档，文档建议所有的配置需要在软件内进行（也在意料之内，在外部配置好也只能是奇迹）。后来不知道在哪里找到了安装包，终于进入了软件内配置的操作，基础信息在原来电脑的软件配置里面都可以找到，唯有一个很关键的信息无法得到——连接服务器的密码。兜兜转转一大圈，在最接近胜利的前一刻再一次卡住。</p>
+<h3 id="2-验证">2 验证<a hidden class="anchor" aria-hidden="true" href="#2-验证">#</a></h3>
+<p>还是找到了init文件，发现密码就保存在里面，结果发现不对，怀疑是加密后的密码——心再次凉了下来，尝试了几个常见的密码也不行，再次打开init文件的时候发现：尝试的密码也被加密保存了下来。这个时候便有了思路：如果我能利用这个漏洞，提供足够多的明文和加密后对应的密文，是否可以推断出加密方式并破译密码。放在现在的软件大概是不行的，巧就巧在这个软件是零几年的软件，行业自己开发的，估计加密也不会使用太专业的加密方法。</p>
+<p>理论成立，开干！按照DS的指示提供了若干明文和密文：</p>
+<table>
+	<thead>
+			<tr>
+					<th>明文</th>
+					<th>密文</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>123456</td>
+					<td>1f68097f6202</td>
+			</tr>
+			<tr>
+					<td>654321</td>
+					<td>186f0e786505</td>
+			</tr>
+			<tr>
+					<td>admin</td>
+					<td>4f3e572239</td>
+			</tr>
+			<tr>
+					<td>888888</td>
+					<td>166202736f0c</td>
+			</tr>
+	</tbody>
+</table>
+<p>DS首先发现，明文长度=密文长度，它排除了所有主流哈希算法（MD5/SHA等），因为哈希输出的长度是固定的，不会随明文长度变化。这不是哈希，而是逐字节加密/变换。然后DS将密文与明文做<code>XOR（异或）</code>运算（对应相同得到0，不同得到1），得到：</p>
+<table>
+	<thead>
+			<tr>
+					<th>明文</th>
+					<th>密文字节</th>
+					<th>明文字节</th>
+					<th>XOR结果</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>123456</td>
+					<td>1f 68 09 7f 62 02</td>
+					<td>31 32 33 34 35 36</td>
+					<td>2e 5a 3a 4b 57 34</td>
+			</tr>
+			<tr>
+					<td>654321</td>
+					<td>18 6f 0e 78 65 05</td>
+					<td>36 35 34 33 32 31</td>
+					<td>2e 5a 3a 4b 57 34</td>
+			</tr>
+			<tr>
+					<td>888888</td>
+					<td>16 62 02 73 6f 0c</td>
+					<td>38 38 38 38 38 38</td>
+					<td>2e 5a 3a 4b 57 34</td>
+			</tr>
+	</tbody>
+</table>
+<p><em>admin为5个字符，XOR结果也是5组，常见的XOR加密是在密钥的基础上循环，admin验证的过程略下不展开</em></p>
+<p>结果很amazing啊（<del>毕导乱入</del>），XOR结果一致，根据<code>同一个数做两次 XOR，会变回原数</code>的性质，可以对密文与密钥做一次XOR得到明文。</p>
+<h3 id="3-破解">3 破解<a hidden class="anchor" aria-hidden="true" href="#3-破解">#</a></h3>
+<pre tabindex="0"><code>    5d 35 53 27 66 06 7b
+   ^2e 5a 3a 4b 57 34 2e
+   ----------------------
+    73 6f 6c 69 31 32 33
+</code></pre><ul>
+<li>这里XOR后的结果依然是16进制数*
+<code>0x73 0x6f 0x6c 0x69 0x31 0x32 0x33</code>对应的ASCII为<code>soli123</code>，至此，密码被破译出来了。</li>
+</ul>
+<h3 id="4-总结">4 总结<a hidden class="anchor" aria-hidden="true" href="#4-总结">#</a></h3>
+<p>虽然破译过程由DS进行，但是我还是比较有成就感，我找到了init文件里面保存的密码，并根据密码的改变能够提供样本，发现破译的可能性。由于没有密码的相关知识，从前可能就无法继续进行了，现在有了AI的帮助，破译了密码，同时我也学习了XOR加密的方法。</p>
+<h3 id="5-附录">5 附录<a hidden class="anchor" aria-hidden="true" href="#5-附录">#</a></h3>
+<p>1- 写完文章后，找到一个很有意思的网站:<a href="https://caesarcipher.org/zh">Caesar Cipher</a>，里面有很多密码学的文章和工具，有时间可以看一下。</p>
+<p>2- 文章封面：<a href="https://commons.wikimedia.org/wiki/File:Enigma_rotors_with_alphabet_rings.jpg">Enigma wheels within alphabet rings in position in an Enigma scrambler-TedColes</a></p>
+<pre tabindex="0"><code>Hayashi  
+Dorm, my  
+2026.08.30
+</code></pre>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/Meteo/tags/%E6%8A%80%E8%83%BD/">技能</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/Meteo/">Meteo</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -5,15 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="noindex, nofollow">
-<title>Hello World | Meteo</title>
+<title>技能 | Meteo</title>
 <meta name="keywords" content="">
-<meta name="description" content="Hello, World!
-
-“千里之行，始于足下”
-
-这是Meteo的第一篇Post，万里长征第一步从这里开始，期待未来无限可能">
+<meta name="description" content="">
 <meta name="author" content="">
-<link rel="canonical" href="http://localhost:1313/Meteo/posts/hello-world/">
+<link rel="canonical" href="http://localhost:1313/Meteo/tags/%E6%8A%80%E8%83%BD/">
 <link crossorigin="anonymous" href="/Meteo/assets/css/stylesheet.89ca4972ab5e6aaa05e9a0dae0c4bb64b26585bc79e36f5cf33614eea0283abe.css" integrity="sha256-icpJcqteaqoF6aDa4MS7ZLJlhbx5429c8zYU7qAoOr4=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/Meteo/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/Meteo/favicon-16x16.png">
@@ -22,7 +18,7 @@
 <link rel="mask-icon" href="http://localhost:1313/Meteo/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/Meteo/posts/hello-world/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/Meteo/tags/%E6%8A%80%E8%83%BD/">
 <noscript>
     <style>
         #theme-toggle,
@@ -70,7 +66,7 @@
 
 </script>
 </head>
-<body id="top">
+<body class="list" id="top">
     <header class="header">
     <nav class="header-nav">
         <div class="logo">
@@ -127,33 +123,36 @@
         </ul>
     </nav>
 </header>
-<main class="main">
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    技能
+  </h1>
+</header>
 
-<article class="post-single">
-  <header class="post-header">
-    
-    <h1 class="post-title entry-hint-parent">
-      Hello World
-    </h1>
-    <div class="post-meta">
-
-<span title='2026-06-13 00:32:21 +0800 CST'>June 13, 2026</span>
-
-</div>
-  </header> 
-  <div class="post-content md-content"><h3 id="hello-world">Hello, World!<a hidden class="anchor" aria-hidden="true" href="#hello-world">#</a></h3>
-<blockquote>
-<p>“千里之行，始于足下”</p>
-</blockquote>
-<p>这是Meteo的第一篇Post，万里长征第一步从这里开始，期待未来无限可能</p>
-
-
+<article class="post-entry tag-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="http://localhost:1313/Meteo/img/post-bg-cafucgate.jpg" alt="CAFUC Hall Gate">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">弱密码破译
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> AI的发展让学习的成本变低了不少，以前有想法没技术，要么花时间去学，要么只能停留在想法。现在有了AI，很多事情都能迈出第一步。 不管怎么说，先跑起来。
+0 问题 前一段时间，单位电脑做了一些更换，需要把从前电脑里面的业务软件迁移至新电脑，没有安装包，没有文档，甚至连一些密码都不知道，算得上是一个历史遗留问题。
+1 尝试 于是我开始了尝试，从最简单的方法：直接从旧电脑上复制本地文件，拷贝到新电脑上——不出所料地无法正常运行，因为软件需要重新配置。在拷贝的文件里面东翻西找，找到一个init文件，用记事本打开，发现里面有一些旧电脑的路径——第二次尝试：将路径改为新电脑对应的路径，但依然没有成功。
+到这里问题有点停滞了，后来又找到了另外一个版本软件自带的help文档，文档建议所有的配置需要在软件内进行（也在意料之内，在外部配置好也只能是奇迹）。后来不知道在哪里找到了安装包，终于进入了软件内配置的操作，基础信息在原来电脑的软件配置里面都可以找到，唯有一个很关键的信息无法得到——连接服务器的密码。兜兜转转一大圈，在最接近胜利的前一刻再一次卡住。
+2 验证 还是找到了init文件，发现密码就保存在里面，结果发现不对，怀疑是加密后的密码——心再次凉了下来，尝试了几个常见的密码也不行，再次打开init文件的时候发现：尝试的密码也被加密保存了下来。这个时候便有了思路：如果我能利用这个漏洞，提供足够多的明文和加密后对应的密文，是否可以推断出加密方式并破译密码。放在现在的软件大概是不行的，巧就巧在这个软件是零几年的软件，行业自己开发的，估计加密也不会使用太专业的加密方法。
+理论成立，开干！按照DS的指示提供了若干明文和密文：
+明文 密文 123456 1f68097f6202 654321 186f0e786505 admin 4f3e572239 888888 166202736f0c DS首先发现，明文长度=密文长度，它排除了所有主流哈希算法（MD5/SHA等），因为哈希输出的长度是固定的，不会随明文长度变化。这不是哈希，而是逐字节加密/变换。然后DS将密文与明文做XOR（异或）运算，得到：
+明文 密文字节 明文字节 XOR结果 123456 1f 68 09 7f 62 02 31 32 33 34 35 36 2e 5a 3a 4b 57 34 654321 18 6f 0e 78 65 05 36 35 34 33 32 31 2e 5a 3a 4b 57 34 888888 16 62 02 73 6f 0c 38 38 38 38 38 38 2e 5a 3a 4b 57 34 结果很amazing啊（毕导乱入）
+...</p>
   </div>
+  <footer class="entry-footer">
 
-  <footer class="post-footer">
-    <ul class="post-tags">
-    </ul>
-  </footer>
+<span title='2026-08-30 14:03:00 +0800 CST'>August 30, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to 弱密码破译" href="http://localhost:1313/Meteo/posts/cryptography/"></a>
 </article>
     </main>
     

@@ -1,8 +1,149 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Posts on Meteo</title><link>https://lkslee.github.io/Meteo/posts/</link><description>Recent content in Posts on Meteo</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sat, 13 Jun 2026 02:22:02 +0800</lastBuildDate><atom:link href="https://lkslee.github.io/Meteo/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>It's Time to Go</title><link>https://lkslee.github.io/Meteo/posts/its-time-to-go/</link><pubDate>Sat, 13 Jun 2026 02:22:02 +0800</pubDate><guid>https://lkslee.github.io/Meteo/posts/its-time-to-go/</guid><description>&lt;blockquote&gt;
-&lt;h3 id="写在前面"&gt;写在前面&lt;/h3&gt;
-&lt;p&gt;&lt;em&gt;这一篇短文写于2025年毕业之际，转载自&lt;/em&gt; &lt;a href="https://lkslee.github.io/2025/06/15/graduation/"&gt;&lt;em&gt;&lt;strong&gt;子山隅&lt;/strong&gt;&lt;/em&gt;&lt;/a&gt; &lt;em&gt;今年再次回到母校，感慨良多，相似的时间，相似的地点，但在这里的人早已各奔东西，不知何时能再次相见&lt;/em&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Posts on Meteo</title>
+    <link>http://localhost:1313/Meteo/posts/</link>
+    <description>Recent content in Posts on Meteo</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 30 Aug 2026 14:03:00 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/Meteo/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>弱密码破译</title>
+      <link>http://localhost:1313/Meteo/posts/cryptography/</link>
+      <pubDate>Sun, 30 Aug 2026 14:03:00 +0800</pubDate>
+      <guid>http://localhost:1313/Meteo/posts/cryptography/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;AI的发展让学习的成本变低了不少，以前有想法没技术，要么花时间去学，要么只能停留在想法。现在有了AI，很多事情都能迈出第一步。&lt;/em&gt;&lt;br&gt;
+&lt;em&gt;不管怎么说，先跑起来。&lt;/em&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h1 id="随记六月半"&gt;随记|六月半&lt;/h1&gt;
+&lt;h3 id=&#34;0-问题&#34;&gt;0 问题&lt;/h3&gt;
+&lt;p&gt;前一段时间，单位电脑做了一些更换，需要把从前电脑里面的业务软件迁移至新电脑，没有安装包，没有文档，甚至连一些密码都不知道，算得上是一个历史遗留问题。&lt;/p&gt;
+&lt;h3 id=&#34;1-尝试&#34;&gt;1 尝试&lt;/h3&gt;
+&lt;p&gt;于是我开始了尝试，从最简单的方法：直接从旧电脑上复制本地文件，拷贝到新电脑上——不出所料地无法正常运行，因为软件需要重新配置。在拷贝的文件里面东翻西找，找到一个init文件，用记事本打开，发现里面有一些旧电脑的路径——第二次尝试：将路径改为新电脑对应的路径，但依然没有成功。&lt;/p&gt;
+&lt;p&gt;到这里问题有点停滞了，后来又找到了另外一个版本软件自带的help文档，文档建议所有的配置需要在软件内进行（也在意料之内，在外部配置好也只能是奇迹）。后来不知道在哪里找到了安装包，终于进入了软件内配置的操作，基础信息在原来电脑的软件配置里面都可以找到，唯有一个很关键的信息无法得到——连接服务器的密码。兜兜转转一大圈，在最接近胜利的前一刻再一次卡住。&lt;/p&gt;
+&lt;h3 id=&#34;2-验证&#34;&gt;2 验证&lt;/h3&gt;
+&lt;p&gt;还是找到了init文件，发现密码就保存在里面，结果发现不对，怀疑是加密后的密码——心再次凉了下来，尝试了几个常见的密码也不行，再次打开init文件的时候发现：尝试的密码也被加密保存了下来。这个时候便有了思路：如果我能利用这个漏洞，提供足够多的明文和加密后对应的密文，是否可以推断出加密方式并破译密码。放在现在的软件大概是不行的，巧就巧在这个软件是零几年的软件，行业自己开发的，估计加密也不会使用太专业的加密方法。&lt;/p&gt;
+&lt;p&gt;理论成立，开干！按照DS的指示提供了若干明文和密文：&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;明文&lt;/th&gt;
+					&lt;th&gt;密文&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;123456&lt;/td&gt;
+					&lt;td&gt;1f68097f6202&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;654321&lt;/td&gt;
+					&lt;td&gt;186f0e786505&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;admin&lt;/td&gt;
+					&lt;td&gt;4f3e572239&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;888888&lt;/td&gt;
+					&lt;td&gt;166202736f0c&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;DS首先发现，明文长度=密文长度，它排除了所有主流哈希算法（MD5/SHA等），因为哈希输出的长度是固定的，不会随明文长度变化。这不是哈希，而是逐字节加密/变换。然后DS将密文与明文做&lt;code&gt;XOR（异或）&lt;/code&gt;运算（对应相同得到0，不同得到1），得到：&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;明文&lt;/th&gt;
+					&lt;th&gt;密文字节&lt;/th&gt;
+					&lt;th&gt;明文字节&lt;/th&gt;
+					&lt;th&gt;XOR结果&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;123456&lt;/td&gt;
+					&lt;td&gt;1f 68 09 7f 62 02&lt;/td&gt;
+					&lt;td&gt;31 32 33 34 35 36&lt;/td&gt;
+					&lt;td&gt;2e 5a 3a 4b 57 34&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;654321&lt;/td&gt;
+					&lt;td&gt;18 6f 0e 78 65 05&lt;/td&gt;
+					&lt;td&gt;36 35 34 33 32 31&lt;/td&gt;
+					&lt;td&gt;2e 5a 3a 4b 57 34&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;888888&lt;/td&gt;
+					&lt;td&gt;16 62 02 73 6f 0c&lt;/td&gt;
+					&lt;td&gt;38 38 38 38 38 38&lt;/td&gt;
+					&lt;td&gt;2e 5a 3a 4b 57 34&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;em&gt;admin为5个字符，XOR结果也是5组，常见的XOR加密是在密钥的基础上循环，admin验证的过程略下不展开&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>雨一直下</title>
+      <link>http://localhost:1313/Meteo/posts/rainy-all-the-day/</link>
+      <pubDate>Sat, 08 Aug 2026 09:40:00 +0800</pubDate>
+      <guid>http://localhost:1313/Meteo/posts/rainy-all-the-day/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;「怪谈」今年的第一个暴雨预警信号是我发布的，同事讲“每年第一个发暴雨预警（信号）的人汛期会特别霉，会遇上很多过程”&lt;/em&gt;
+&lt;em&gt;虽然不相信，但事实胜于雄辩，有点不巧&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;有次隔壁局早早发布了暴雨蓝色预警，与上级部门画的落区基本一致，虽然降水中心没有报到我这，但由于是邻近的地区，还是多留了一份小心。结果隔壁没怎么下，反倒是来我这里了，雨来的很陡。这种事在夏天常有，大气本身就是一个混沌系统，而夏天的过程更让人琢磨不透。&lt;/p&gt;
+&lt;p&gt;吾日多省吾身：为什么条件这么好却没有触发？为什么触发了却不在预报的区域？为什么条件不好也下的那么大？最后连预报对了也要问为什么。越来越觉得预报是一个“不断打击自信、不断怀疑自己，最后逐渐在不确定中确定：确定的只有不确定”的一项事业。有位首席跟我讲：预报有可预报性与不可预报性。有种纵使机关算尽，但人算终究不能胜过天算的遗憾。&lt;/p&gt;
+&lt;p&gt;偶尔接到外部质问的电话，有人吐槽我们是吃干饭的，说自己也能干，更有极端者扬言要炸了我们——当然是气话，但也让人哭笑不得。生气归生气，却也知道这种质疑躲不开，“可能”是负责任的词，别人总是期待你能给一个确定的、精准的回答，但你往往只能礼貌、热情地给一个不太肯定的回答，甚至告诉对方回答不了。“借口”有很多：尺度太小、局地性强、边界层扰动、副高位置不确定，但事实也确实如此。&lt;/p&gt;
+&lt;p&gt;每天早上8点，中央气象台的会商的开场，常常是那句“各位同仁大家早上好”。以前没细想，后来听多了，觉得这句“同仁”很有分量。它好像不是客套，更像是一种行业认同——你知道远在北京那头的人跟你面对着同样的难题，处境相似，我懂你的意思。就这一句话，多少有点聊以慰藉的意思，无论昨天晚上你过得好不好，天亮了又是一句“早上好”，大家各守一方，又同此凉热。&lt;/p&gt;
+&lt;p&gt;仔细想想，从V.Bjerknes发表那篇划时代的论文至今也不过一百二十余年，时间不算长，而科学和技术还在往前走。也许有一天，预报的落区和量级能和我们想给的那个确定答案，离得越来越近。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Hayashi  
+Obs  
+2026.08.08
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    <item>
+      <title>工作一年</title>
+      <link>http://localhost:1313/Meteo/posts/first-year-of-work/</link>
+      <pubDate>Mon, 03 Aug 2026 21:21:00 +0800</pubDate>
+      <guid>http://localhost:1313/Meteo/posts/first-year-of-work/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;“一件事情的毕业，永远是另一件事情的开始”&lt;br&gt;
+——《目送》&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;去年7月31日，我拖着行李箱来到MB，我想当时对开启全新人生阶段的兴奋是大于迷茫的。在市局3个月时间，先后在气象台、保障中心和办公室见习，&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-Hayashi&#34; data-lang=&#34;Hayashi&#34;&gt;HOME_MY
+2026.07.26
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    <item>
+      <title>维修小记</title>
+      <link>http://localhost:1313/Meteo/posts/laundry/</link>
+      <pubDate>Sun, 26 Jul 2026 17:19:00 +0800</pubDate>
+      <guid>http://localhost:1313/Meteo/posts/laundry/</guid>
+      <description>&lt;p&gt;刚搬到单位提供的房子里的时候，屋里除了通水通电（天然气还是后面联系公司重新开通的），用“家徒四壁”是一点也不为过的。刚来的一段时间添置了不少生活上必需的家具和电器，其中就包括一台洗衣机。无论是由于囊中羞涩还是考虑到有朝一日离开时不心疼，最终选择了一款网上不能再便宜的贴牌货。&lt;/p&gt;
+&lt;p&gt;一分钱一分货是有道理的，容量很小，冬天的衣服很厚，往往放不了几件衣服；衣服洗不干净，要么是污渍仍然残留，要么是洗衣液没有被漂洗掉；使用时间稍久一点，发现很伤衣服，洗不到几次便发现衣服磨损严重，后来又买了洗衣袋试图保护衣服。&lt;/p&gt;
+&lt;p&gt;事情就发生在使用洗衣袋过后，有几次洗衣机在脱水程序的时候罢工，折腾了一阵子又好了，直到有一天，终于不能脱水了，反复重启还是减少衣物都无济于事，在网上查找报错原因也没能解决问题。直到室友拆开后盖，锁定问题出在排水阀旁边的牵引器上，这才有了点头绪。联系过售后，等来的不是上门维修，而是商家发送来的牵引器配件和更换视频。&lt;/p&gt;
+&lt;p&gt;说起来很简单，就是将旧的牵引器从洗衣机上拆下，换上新的，唯一的难度就是需要自己接线。我没有电工的知识，也没有相关的经验。之前刷视频的时候看到过有很多接线的方法，应用于不同场景，于是我又在网上多找了几个接线的教学视频，最终选择了一个方法：首先 将线皮拨开（没有剥线钳，线很细，又废了不少劲），分成两缕各自扭成一股，然后将要接的两根线的两股分别相匹配，分别扭在一起，然后将两个扭在一起的线一个向左向前绕，一根向右向后绕，缠上绝缘胶布，线就接好了。
+&lt;img alt=&#34;使用的接线方式&#34; loading=&#34;lazy&#34; src=&#34;http://localhost:1313/Meteo/img/laundry1.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;由于要接的是两根线，所以需要使得接线口避开，这就需要使用到平行接线的方法：将要连接的两组线按照A1-B1-A2-B2的方式排列，B1-A2相同位置剪下，然后连接对应的线就好了。
+&lt;img alt=&#34;使用的接线方式&#34; loading=&#34;lazy&#34; src=&#34;http://localhost:1313/Meteo/img/laundry2.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;上次是接水晶头，这次是接电线，技多不压身:)&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-Hayashi&#34; data-lang=&#34;Hayashi&#34;&gt;HOME_MY
+2026.07.26
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    <item>
+      <title>It&#39;s Time to Go</title>
+      <link>http://localhost:1313/Meteo/posts/its-time-to-go/</link>
+      <pubDate>Sat, 13 Jun 2026 02:22:02 +0800</pubDate>
+      <guid>http://localhost:1313/Meteo/posts/its-time-to-go/</guid>
+      <description>&lt;blockquote&gt;
+&lt;h3 id=&#34;写在前面&#34;&gt;写在前面&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;这一篇短文写于2025年毕业之际，转载自&lt;/em&gt; &lt;a href=&#34;https://lkslee.github.io/2025/06/15/graduation/&#34;&gt;&lt;em&gt;&lt;strong&gt;子山隅&lt;/strong&gt;&lt;/em&gt;&lt;/a&gt;  &lt;em&gt;今年再次回到母校，感慨良多，相似的时间，相似的地点，但在这里的人早已各奔东西，不知何时能再次相见&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;随记六月半&#34;&gt;随记|六月半&lt;/h1&gt;
 &lt;blockquote&gt;
 &lt;p&gt;赤日炎炎似火烧，野田禾稻半枯焦。&lt;br&gt;
 农夫心内如汤煮，公子王孙把扇摇。&lt;br&gt;
@@ -13,10 +154,20 @@
 &lt;p&gt;四年似乎很漫长，昨天在翻照片的时候，发现昔日有些回忆早已忘记，照片让我找回往日的气息，而有些回忆恍如昨日，清晰可见，才发现时间竟然过去了那么久，而我早已不是当初的那个我。我觉得将来还是会怀念这里的生活，这一段无忧无虑的时光。&lt;/p&gt;
 &lt;p&gt;大家如同当时从四面八方汇聚在一起一样，现在又将各自奔赴自己下一段精彩的旅程，愿诸位都能身体健康，天天开心！&lt;/p&gt;
 &lt;p&gt;“你可以回头看，但不要向后走”&lt;/p&gt;
-&lt;pre tabindex="0"&gt;&lt;code class="language-Hayashi" data-lang="Hayashi"&gt;B15-5009, CAFUC(Tianfu)
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-Hayashi&#34; data-lang=&#34;Hayashi&#34;&gt;B15-5009, CAFUC(Tianfu)  
 2025.06.15
-&lt;/code&gt;&lt;/pre&gt;</description></item><item><title>Hello World</title><link>https://lkslee.github.io/Meteo/posts/hello-world/</link><pubDate>Sat, 13 Jun 2026 00:32:21 +0800</pubDate><guid>https://lkslee.github.io/Meteo/posts/hello-world/</guid><description>&lt;h3 id="hello-world"&gt;Hello, World!&lt;/h3&gt;
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    <item>
+      <title>Hello World</title>
+      <link>http://localhost:1313/Meteo/posts/hello-world/</link>
+      <pubDate>Sat, 13 Jun 2026 00:32:21 +0800</pubDate>
+      <guid>http://localhost:1313/Meteo/posts/hello-world/</guid>
+      <description>&lt;h3 id=&#34;hello-world&#34;&gt;Hello, World!&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;“千里之行，始于足下”&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;这是Meteo的第一篇Post，万里长征第一步从这里开始，期待未来无限可能&lt;/p&gt;</description></item></channel></rss>
+&lt;p&gt;这是Meteo的第一篇Post，万里长征第一步从这里开始，期待未来无限可能&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
